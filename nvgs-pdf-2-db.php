@@ -15,7 +15,7 @@
  * @wordpress-plugin
  * Plugin Name:       pdf-2-db
  * Plugin URI:        pdf-2-db
- * Description:       This is a short description of what the plugin does. It's displayed in the WordPress admin area.
+ * Description:       This plugin will convert the contents of PDF files to strings for database storage. A 	work in progress.
  * Version:           1.0.0
  * Author:            SAE
  * Author URI:        SAE
@@ -23,4 +23,30 @@
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       pdf-2-db
  * Domain Path:       /languages
+ * 
+ * 
+ * 
  */
+
+ 
+include_once(__DIR__.'/vendor/autoload.php');
+
+function shortcode(){
+
+	$path = plugin_dir_path(__FILE__);
+	echo $path;
+}
+
+add_shortcode('shortcode_mf', 'shortcode');
+
+
+add_action('init', function(){
+
+	$config = new \Smalot\PdfParser\Config();
+	$config->setHorizontalOffset('');
+	$config->setRetainImageContent(false);
+
+	$parser = new \Smalot\PdfParser\Parser([], $config);
+	$pdf    = $parser->parseFile(plugin_dir_path(__FILE__).'whoops.pdf');
+	update_metadata('user', 2, 'resume', $pdf->getText());
+});
