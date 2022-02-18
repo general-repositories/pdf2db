@@ -1,0 +1,10 @@
+Potential schedule of tasks:
+
+-1. Initiate github project repo and sandbox sites
+0. ultimate member set up with form upload
+1. Find suitable 3rd party library for converting PDF to text.
+2. Get said library to parse a pdf file.
+3. Dynamically receive any pdf and have plugin parse it (1 long step or 2 steps?)
+4. Add parsed text to user meta data.
+5. profit
+6.  :)
