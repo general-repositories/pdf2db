@@ -40,13 +40,26 @@ function shortcode(){
 add_shortcode('shortcode_mf', 'shortcode');
 
 
-add_action('init', function(){
+// add_action('init', function(){
 
-	$config = new \Smalot\PdfParser\Config();
-	$config->setHorizontalOffset('');
-	$config->setRetainImageContent(false);
+// 	$config = new \Smalot\PdfParser\Config();
+// 	$config->setHorizontalOffset('');
+// 	$config->setRetainImageContent(false);
 
-	$parser = new \Smalot\PdfParser\Parser([], $config);
-	$pdf    = $parser->parseFile(plugin_dir_path(__FILE__).'whoops.pdf');
-	update_metadata('user', 2, 'resume', $pdf->getText());
-});
+// 	$parser = new \Smalot\PdfParser\Parser([], $config);
+// 	$pdf    = $parser->parseFile(plugin_dir_path(__FILE__).'whoops.pdf');
+// 	update_metadata('user', 2, 'resume', $pdf->getText());
+// });
+
+
+add_action('um_user_edit_profile', 'function_name', 10, 1);
+
+function function_name($args){
+	update_metadata('user', 2, 'test_spot', 'testing update');
+	?>
+		<script>
+			console.log('hook go boom?');
+			console.log('<?php echo $args;?>');
+		</script>
+	<?php
+}
