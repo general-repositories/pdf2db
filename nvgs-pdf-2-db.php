@@ -39,7 +39,7 @@ function handlePDF( $args ){
 	// include the pdf parser library that we need
 	include_once( __DIR__.'/vendor/autoload.php' );
 	
-	if( $args[ 'submitted' ][ 'resume_upload' ] ){
+	if( $args[ 'submitted' ][ 'onward_resume_file' ] ){
 		
 		$current_user = get_current_user_id();
 	
