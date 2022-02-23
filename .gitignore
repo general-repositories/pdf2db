@@ -1,6 +1,5 @@
 /vendor
 composer.lock
 whoops.pdf
-.gitignore
 tasks.txt
 .vsls.json
