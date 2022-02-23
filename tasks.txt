@@ -6,5 +6,5 @@ Potential schedule of tasks:
 2. Get said library to parse a pdf file.
 3. Dynamically receive any pdf and have plugin parse it (1 long step or 2 steps?)
 4. Add parsed text to user meta data.
-5. profit
-6.  :)
+5. Sanitize
+6. 

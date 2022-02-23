@@ -1,4 +1,5 @@
 /vendor
 composer.lock
-test.pdf
 whoops.pdf
+tasks.txt
+.vsls.json
