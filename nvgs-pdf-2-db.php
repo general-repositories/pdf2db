@@ -42,7 +42,7 @@ function handlePDF($args){
 	if($args['submitted']['resume_upload']){
 		
 		$current_user = get_current_user_id();
-
+	
 		$config = new \Smalot\PdfParser\Config();
 		$config->setHorizontalOffset('');
 		$config->setRetainImageContent(false);
@@ -57,9 +57,13 @@ function handlePDF($args){
 			$um_user_pdf = $uploads_path['basedir'] . '/ultimatemember' . '/' . $current_user . '/' . $db_entry;
 	
 			$pdf = $parser->parseFile($um_user_pdf);
-			update_metadata('user', $current_user, 'resume', $pdf->getText());
+			$string = sanitize_text_field($pdf->getText());
+			
+			update_metadata( 'user', $current_user, 'resume', $string );
 		});
 	}
 }
+
+
 
 add_action('um_user_edit_profile', 'handlePDF', 10, 1);
