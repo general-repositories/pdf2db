@@ -40,18 +40,18 @@ function handlePDF( $args ){
 	include_once( __DIR__.'/vendor/autoload.php' );
 	
 	if( $args[ 'submitted' ][ 'onward_resume_file' ] ){
-		
+
 		$current_user = get_current_user_id();
-	
+		
 		$config = new \Smalot\PdfParser\Config();
 		$config->setHorizontalOffset( '' );
 		$config->setRetainImageContent( false );
-	
+		
 		$parser = new \Smalot\PdfParser\Parser( [], $config );
 		
 		add_action( 'shutdown', function() use ( $current_user, $parser ){
 			
-			$db_entry = get_user_meta( $current_user, 'resume_upload', true );
+			$db_entry = get_user_meta( $current_user, 'onward_resume_file', true );
 			
 			$uploads_path = wp_upload_dir( null, false, false );
 			$um_user_pdf = $uploads_path[ 'basedir' ] . '/ultimatemember' . '/' . $current_user . '/' . $db_entry;
