@@ -1,5 +1,5 @@
 /vendor
+/notes
+
 composer.lock
-whoops.pdf
-tasks.txt
 .vsls.json
