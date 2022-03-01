@@ -34,21 +34,27 @@ if ( !defined( 'ABSPATH' ) ) die( 'No cheating!' );
 
 function add_pdf_query( $query_args, $directory_settings ){
 
-	$query_args['meta_query'][] = array(
-		'key' => 'nvgs_applicant_file',
-		'value' => $query_args['meta_query'][0][0]['value'],
-		'compare' => 'LIKE'
-	);
+	if ( ! empty( $_POST['search'] ) ) {
+
+		$search = trim( stripslashes( sanitize_text_field( $_POST['search'] ) ) );
+
+		$query_args['meta_query'][] = array(
+			'key' => 'nvgs_applicant_file',
+			'value' => $search,
+			'compare' => 'LIKE'
+		);
+
+		$query_args['meta_query']['relation'] = 'OR';
+	}
 	
-	update_metadata('user',1,'query_args',gettype($query_args['meta_query'][0][0]['value']));
+	update_metadata('user',1,'query_args',json_encode($query_args['meta_query']));
 	update_metadata('user',1,'directory_settings',json_encode($directory_settings));
 
 
-	return $query_args; 
+	return $query_args;
 }
 
 add_filter( 'um_prepare_user_query_args', 'add_pdf_query', 10, 2 );
-// apply_filters( 'um_prepare_user_query_args', );
 
 // create the function that handles all data between upload to parser to database
 function handlePDF( $args ){
