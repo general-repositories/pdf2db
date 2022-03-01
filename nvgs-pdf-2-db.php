@@ -32,49 +32,60 @@
 // B I T E
 if ( !defined( 'ABSPATH' ) ) die( 'No cheating!' );
 
+function add_pdf_query( $query_args, $directory_settings ){
 
+	$query_args['meta_query'][] = array(
+		'key' => 'nvgs_applicant_file',
+		'value' => $query_args['meta_query'][0][0]['value'],
+		'compare' => 'LIKE'
+	);
+	
+	update_metadata('user',1,'query_args',gettype($query_args['meta_query'][0][0]['value']));
+	update_metadata('user',1,'directory_settings',json_encode($directory_settings));
+
+
+	return $query_args; 
+}
+
+add_filter( 'um_prepare_user_query_args', 'add_pdf_query', 10, 2 );
+// apply_filters( 'um_prepare_user_query_args', );
 
 // create the function that handles all data between upload to parser to database
 function handlePDF( $args ){
 	
 	// include the pdf parser library that we need
 	include_once( __DIR__.'/vendor/autoload.php' );
-
-	update_metadata('user',1,'args','json_encode($args)');
-
-	delete_metadata('user',1,'resume');
-
-	
-	// delete_user_meta( 1, 'resume');
 	
 	$current_user = get_current_user_id();
 	
-	// if( $args[ 'submitted' ][ 'onward_resume_file' ] != 'empty_file'
-	// 		&& $args[ 'submitted' ][ 'onward_resume_file' ]){
+	if( $args[ 'submitted' ][ 'onward_resume_file' ] != 'empty_file'
+			&& $args[ 'submitted' ][ 'onward_resume_file' ] ){
 				
-	// 	$config = new \Smalot\PdfParser\Config();
-	// 	$config->setHorizontalOffset( '' );
-	// 	$config->setRetainImageContent( false );
+		$config = new \Smalot\PdfParser\Config();
+		$config->setHorizontalOffset( '' );
+		$config->setRetainImageContent( false );
 		
-	// 	$parser = new \Smalot\PdfParser\Parser( [], $config );
+		$parser = new \Smalot\PdfParser\Parser( [], $config );
 		
-	// 	add_action( 'shutdown', function() use ( $current_user, $parser ){
+		add_action( 'shutdown', function() use ( $current_user, $parser ){
 			
-	// 		$db_entry = get_user_meta( $current_user, 'onward_resume_file', true );
+			$db_entry = get_user_meta( $current_user, 'onward_resume_file', true );
 			
-	// 		$uploads_path = wp_upload_dir( null, false, false );
-	// 		$um_user_pdf = $uploads_path[ 'basedir' ] . '/ultimatemember' . '/' . $current_user . '/' . $db_entry;
+		  $uploads_path = wp_upload_dir( null, false, false );
+			$um_user_pdf = $uploads_path[ 'basedir' ] . '/ultimatemember' . '/' . $current_user . '/' . $db_entry;
 			
-	// 		$pdf = $parser->parseFile( $um_user_pdf );
-	// 		$string = sanitize_text_field( $pdf->getText() );
+			$pdf = $parser->parseFile( $um_user_pdf );
+			$string = sanitize_text_field( $pdf->getText() );
 			
-	// 		update_metadata( 'user', $current_user, 'resume', $string );
-	// 	});
-	// }elseif($args['submitted']['onward_resume_file'] == 'empty_file'){
+			update_metadata( 'user', $current_user, 'nvgs_applicant_file', $string );
+			um_reset_user();
+      $string = sanitize_text_field( '' );
+
+		});
+	}elseif($args['submitted']['onward_resume_file'] == 'empty_file'){
 		
-	// 	// delete_user_meta( $current_user, 'resume');
-	// 	delete_metadata('user',1,'args');
-	// } 
+		delete_user_meta( $current_user, 'nvgs_applicant_file');
+	}
 }
 
 
