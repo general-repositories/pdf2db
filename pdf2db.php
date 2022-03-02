@@ -24,48 +24,44 @@
  * Text Domain:       pdf-2-db
  * Domain Path:       /languages
  * 
- * 
- * 
  */
 
 // basic direct-call prevention
-// B I T E
 if ( !defined( 'ABSPATH' ) ) die( 'No cheating!' );
 
-function add_pdf_query( $query_args, $directory_settings ){
+// Adds nvgs_applicant_file to search query, changes main AND to OR
+function add_pdf_query( $query_args, $directory_settings ) {
 
-	if ( ! empty( $_POST['search'] ) ) {
+	if ( !empty( $_POST[ 'search' ] ) ) {
 
-		$search = trim( stripslashes( sanitize_text_field( $_POST['search'] ) ) );
+		$search = trim( stripslashes( sanitize_text_field( $_POST[ 'search' ] ) ) );
 
-		$query_args['meta_query'][] = array(
+		$query_args[ 'meta_query' ][] = array(
 			'key' => 'nvgs_applicant_file',
 			'value' => $search,
 			'compare' => 'LIKE'
 		);
 
-		$query_args['meta_query']['relation'] = 'OR';
-	}
-	
-	update_metadata('user',1,'query_args',json_encode($query_args['meta_query']));
-	update_metadata('user',1,'directory_settings',json_encode($directory_settings));
+		$query_args[ 'meta_query' ][ 'relation' ] = 'OR';
 
+	}
 
 	return $query_args;
+
 }
 
+// Grabbing query arguments before the search is finished
 add_filter( 'um_prepare_user_query_args', 'add_pdf_query', 10, 2 );
 
-// create the function that handles all data between upload to parser to database
-function handlePDF( $args ){
+// create the function that facilitates the handoff from um file upload to parser, then from parser to database.
+function handlePDF( $args ) {
 	
 	// include the pdf parser library that we need
 	include_once( __DIR__.'/vendor/autoload.php' );
 	
 	$current_user = get_current_user_id();
-	
-	if( $args[ 'submitted' ][ 'onward_resume_file' ] != 'empty_file'
-			&& $args[ 'submitted' ][ 'onward_resume_file' ] ){
+
+	if ( $args[ 'submitted' ][ 'onward_resume_file' ] != 'empty_file' && $args[ 'submitted' ][ 'onward_resume_file' ] ) {
 				
 		$config = new \Smalot\PdfParser\Config();
 		$config->setHorizontalOffset( '' );
@@ -73,7 +69,7 @@ function handlePDF( $args ){
 		
 		$parser = new \Smalot\PdfParser\Parser( [], $config );
 		
-		add_action( 'shutdown', function() use ( $current_user, $parser ){
+		add_action( 'shutdown', function() use ( $current_user, $parser ) {
 			
 			$db_entry = get_user_meta( $current_user, 'onward_resume_file', true );
 			
@@ -88,12 +84,13 @@ function handlePDF( $args ){
       $string = sanitize_text_field( '' );
 
 		});
-	}elseif($args['submitted']['onward_resume_file'] == 'empty_file'){
+	} elseif ( $args[ 'submitted' ][ 'onward_resume_file' ] == 'empty_file' ) {
 		
-		delete_user_meta( $current_user, 'nvgs_applicant_file');
+		delete_user_meta( $current_user, 'nvgs_applicant_file' );
+
 	}
 }
 
-
-
 add_action( 'um_user_edit_profile', 'handlePDF', 10, 1 );
+
+// B I T E //
