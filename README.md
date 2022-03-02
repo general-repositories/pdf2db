@@ -1,29 +1,29 @@
-Dependencies:
+## Dependencies:
 
 	smalot/pdfparser
 
-	Installation:
+	### Installation:
     
 		Using Composer:
+ 
+			Obtain Composer  
+			Run 'composer install'  
 
-			Obtain Composer
-			Run 'composer install'
 
-
-Version:
+## Version:
 
 	1.0.1
 
-Features:
+## Features:  
 
-	Plugin designed to work with UltimateMember
-	When creating a new upload form, meta-key must be set to 'onward_resume_file'
+	Plugin designed to work with UltimateMember  
+	When creating a new upload form, meta-key must be set to 'onward_resume_file'  
 
-	Utilizes PDFParser to stringify uploaded PDF file to the user metadata
-	String is sanitized before upload to metadata
-	Adds search functionality for meta-key
+	Utilizes PDFParser to stringify uploaded PDF file to the user metadata  
+	String is sanitized before upload to metadata  
+	Adds search functionality for meta-key  
 
 
-Admin Setup:
+## Admin Setup:
 
 	One must restrict accepted file types in the upload form to ONLY PDF for security. 
