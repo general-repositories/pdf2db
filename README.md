@@ -26,4 +26,6 @@
 
 ## Admin Setup:
 
-	One must restrict accepted file types in the upload form to ONLY PDF for security. 
+	One must restrict accepted file types in the upload form to ONLY PDF for security.
+
+	<!-- B I T E -->
