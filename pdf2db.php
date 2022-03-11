@@ -61,7 +61,7 @@ function handlePDF( $args ) {
 	
 	$current_user = get_current_user_id();
 
-	if ( $args[ 'submitted' ][ 'onward_resume_file' ] != 'empty_file' && $args[ 'submitted' ][ 'onward_resume_file' ] ) {
+	if ( $args[ 'submitted' ][ 'onward_jobs_resume' ] != 'empty_file' && $args[ 'submitted' ][ 'onward_jobs_resume' ] ) {
 				
 		$config = new \Smalot\PdfParser\Config();
 		$config->setHorizontalOffset( '' );
@@ -71,7 +71,7 @@ function handlePDF( $args ) {
 		
 		add_action( 'shutdown', function() use ( $current_user, $parser ) {
 			
-			$db_entry = get_user_meta( $current_user, 'onward_resume_file', true );
+			$db_entry = get_user_meta( $current_user, 'onward_jobs_resume', true );
 			
 		  $uploads_path = wp_upload_dir( null, false, false );
 			$um_user_pdf = $uploads_path[ 'basedir' ] . '/ultimatemember' . '/' . $current_user . '/' . $db_entry;
@@ -84,7 +84,7 @@ function handlePDF( $args ) {
       $string = sanitize_text_field( '' );
 
 		});
-	} elseif ( $args[ 'submitted' ][ 'onward_resume_file' ] == 'empty_file' ) {
+	} elseif ( $args[ 'submitted' ][ 'onward_jobs_resume' ] == 'empty_file' ) {
 		
 		delete_user_meta( $current_user, 'nvgs_applicant_file' );
 
