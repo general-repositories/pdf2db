@@ -17,7 +17,7 @@
 ## Features:  
 
 	Plugin designed to work with UltimateMember  
-	When creating a new upload form, meta-key must be set to 'onward_resume_file'  
+	When creating a new upload form, meta-key must be set to 'onward_jobs_resume'  
 
 	Utilizes PDFParser to stringify uploaded PDF file to the user metadata  
 	String is sanitized before upload to metadata  
@@ -35,7 +35,7 @@
 	In WP admin, navigate to Ultimate Member > Forms > 'Add New'  
 	Create new form, titled 'pdf file upload' for example.   
 	Select File Upload from options  
-	Add 'onward_resume_file' to the meta-key file  
+	Add 'onward_jobs_resume' to the meta-key file  
 	One must restrict accepted file types in the upload form to ONLY PDF for security.  
 	Copy form shortcode and add to user (applicant) template page  
 	
@@ -49,6 +49,3 @@
 	Update user profile  
 	Go to member directory search page
 	Search for keywords contained in the uploaded pdf
-	
-
-	<!-- B I T E -->
