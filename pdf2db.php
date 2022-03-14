@@ -36,13 +36,16 @@ function add_pdf_query( $query_args, $directory_settings ) {
 
 		$search = trim( stripslashes( sanitize_text_field( $_POST[ 'search' ] ) ) );
 
-		$query_args[ 'meta_query' ][] = array(
-			'key' => 'nvgs_applicant_file',
-			'value' => $search,
-			'compare' => 'LIKE'
-		);
+		$meta_query_last_key = array_key_last( $query_args[ 'meta_query' ] );
 
-		$query_args[ 'meta_query' ][ 'relation' ] = 'OR';
+		$query_args[ 'meta_query' ][ $meta_query_last_key ][] = array(
+			'relation' => 'AND',
+			array( 
+				'key' => 'nvgs_applicant_file',
+				'value' => $search,
+				'compare' => 'LIKE'
+			),
+		);
 
 	}
 
