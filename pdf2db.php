@@ -36,7 +36,7 @@ function add_pdf_query( $query_args, $directory_settings ) {
 
 		$search = trim( stripslashes( sanitize_text_field( $_POST[ 'search' ] ) ) );
 
-		$meta_query_last_key = array_key_last($query_args['meta_query']);
+		$meta_query_last_key = array_key_last( $query_args[ 'meta_query' ] );
 
 		$query_args[ 'meta_query' ][ $meta_query_last_key ][] = array(
 			'relation' => 'AND',
